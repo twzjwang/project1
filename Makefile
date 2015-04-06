@@ -1,8 +1,8 @@
-#solve: Sudoku.o solve.o
-#	g++ -o solve solve.o Sudoku.o
+solve: Sudoku.o solve.o
+	g++ -o solve solve.o Sudoku.o
 
-give: Sudoku.o give.o
-	g++ -o give give.o Sudoku.o
+#give: Sudoku.o give.o
+#	g++ -o give give.o Sudoku.o
 
 Sudoku.o: Sudoku.cpp Sudoku.h
 	g++ -c Sudoku.cpp

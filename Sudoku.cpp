@@ -2,21 +2,52 @@
 void Sudoku::GiveQuestion(){
 	srand((unsigned)time(NULL));
 	int p,temp,n=0,e=0;
+	int r;
+	int my_map[144]={0};
+
+	char temp_map[144]=
+	   {'f', 'a', 'g', 'o', 'o', 'o', 'd', 'i', 'c', 'h', 'e', 'b',
+		'e', 'c', 'i', 'o', 'o', 'o', 'h', 'g', 'b', 'f', 'd', 'a',
+		'b', 'h', 'd', 'o', 'o', 'o', 'a', 'f', 'e', 'i', 'g', 'c',
+		'o', 'o', 'o', 'a', 'e', 'c', 'f', 'h', 'i', 'd', 'b', 'g',
+		'o', 'o', 'o', 'b', 'd', 'h', 'c', 'e', 'g', 'a', 'f', 'i',
+		'o', 'o', 'o', 'i', 'f', 'g', 'b', 'a', 'd', 'e', 'c', 'h',
+		'i', 'e', 'h', 'c', 'a', 'b', 'g', 'd', 'f', 'o', 'o', 'o',
+		'g', 'd', 'c', 'h', 'i', 'f', 'e', 'b', 'a', 'o', 'o', 'o',
+		'a', 'f', 'b', 'd', 'g', 'e', 'i', 'c', 'h', 'o', 'o', 'o',
+		'd', 'i', 'f', 'g', 'b', 'a', 'o', 'o', 'o', 'c', 'h', 'e',
+		'c', 'g', 'e', 'f', 'h', 'i', 'o', 'o', 'o', 'b', 'a', 'd',
+		'h', 'b', 'a', 'e', 'c', 'd', 'o', 'o', 'o', 'g', 'i', 'f'};
 	
-	int my_map[144]=
-	   {6, 1, 7, -1, -1, -1, 4, 9, 3, 8, 5, 2,
-		5, 3, 9, -1, -1, -1, 8, 7, 2, 6, 4, 1,
-		2, 8, 4, -1, -1, -1, 1, 6, 5, 9, 7, 3,
-		-1, -1, -1, 1, 5, 3, 6, 8, 9, 4, 2, 7,
-		-1, -1, -1, 2, 4, 8, 3, 5, 7, 1, 6, 9,
-		-1, -1, -1, 9, 6, 7, 2, 1, 4, 5, 3, 8,
-		9, 5, 8, 3, 1, 2, 7, 4, 6, -1, -1, -1,
-		7, 4, 3, 8, 9, 6, 5, 2, 1, -1, -1, -1,
-		1, 6, 2, 4, 7, 5, 9, 3, 8, -1, -1, -1,
-		4, 9, 6, 7, 2, 1, -1, -1, -1, 3, 8, 5,
-		3, 7, 5, 6, 8, 9, -1, -1, -1, 2, 1, 4,
-		8, 2, 1, 5, 3, 4, -1, -1, -1, 7, 9, 6};
-		
+	int replace_num[9]={0};
+	bool num[9]={0};
+	
+	for(int i=0;i<9;i++){
+		do{
+			r=rand()%9;
+			//cout << r <<endl;
+		}while(num[r]==1);
+		num[r]=1;	
+		replace_num[i]=r;
+		//cout << "i="<< i << " " <<replace_num[i] <<endl;
+	}
+	
+	//replaced with random number
+	for(int i=0;i<144;i++){
+		if(temp_map[i]=='a')my_map[i]=replace_num[0]+1;
+		else if(temp_map[i]=='b')my_map[i]=replace_num[1]+1;
+		else if(temp_map[i]=='c')my_map[i]=replace_num[2]+1;
+		else if(temp_map[i]=='d')my_map[i]=replace_num[3]+1;		
+		else if(temp_map[i]=='e')my_map[i]=replace_num[4]+1;		
+		else if(temp_map[i]=='f')my_map[i]=replace_num[5]+1;		
+		else if(temp_map[i]=='g')my_map[i]=replace_num[6]+1;		
+		else if(temp_map[i]=='h')my_map[i]=replace_num[7]+1;		
+		else if(temp_map[i]=='i')my_map[i]=replace_num[8]+1;		
+		else if(temp_map[i]=='o')my_map[i]=-1;		
+	}
+
+
+	//choose blank	
 	do{
 		for(int i=0;i<144;i++)
 			map[i]=my_map[i];
@@ -32,7 +63,7 @@ void Sudoku::GiveQuestion(){
 		}
 		else
 			e++;		
-	}while(n<50&&e<10000);
+	}while(n<60&&e<10000);
 	Sudoku::print_map();
 	
 }
@@ -48,16 +79,28 @@ void Sudoku::Solve(){
 	int b=0;
 	int count=0;
 	ans_num=0;
+	bool num[9]={0};
+	int count2=0;
 
 	for(int j=0;j<144;j++){
+		if(map[j]>0)
+			num[map[j]]=1;
 		if(map[j]==-1)
 			count++;
 	}
+	
+	for(int j=0;j<9;j++){
+		if(num[j]==0)
+			count2++;
+	}
+	
+		
 	if(Sudoku::check_map()==0)
-		cout << "0" <<endl;
-
+		cout << "0" <<endl;	
 	else if(count!=36)		
 		cout << "0" <<endl;
+	else if(count2>=2)
+		cout << "2" <<endl;		
 	else{
 		Sudoku::test_blank(0);	
 		//cout << "ans_num : " << ans_num << endl;		
@@ -77,7 +120,7 @@ void Sudoku::Solve(){
 				cout << "2" <<endl;
 		}
 		else if(b==1)
-			cout << "1" <<endl;		
+			cout << "0" <<endl;		
 	}		
 }
 

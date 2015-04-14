@@ -1,4 +1,4 @@
-all: Sudoku.o solve.o
+project1: Sudoku.o solve.o
 	g++ -o solve solve.o Sudoku.o
 	g++ -o give give.o Sudoku.o
  

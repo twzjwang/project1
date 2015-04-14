@@ -80,27 +80,17 @@ void Sudoku::Solve(){
 	int count=0;
 	ans_num=0;
 	bool num[9]={0};
-	int count2=0;
 
 	for(int j=0;j<144;j++){
-		if(map[j]>0)
-			num[map[j]]=1;
 		if(map[j]==-1)
 			count++;
-	}
-	
-	for(int j=0;j<9;j++){
-		if(num[j]==0)
-			count2++;
 	}
 	
 		
 	if(Sudoku::check_map()==0)
 		cout << "0" <<endl;	
 	else if(count!=36)		
-		cout << "0" <<endl;
-	else if(count2>=2)
-		cout << "2" <<endl;		
+		cout << "0" <<endl;	
 	else{
 		Sudoku::test_blank(0);	
 		//cout << "ans_num : " << ans_num << endl;		
@@ -149,7 +139,9 @@ void Sudoku::test_blank(int i){
 	int b=0;
 	//system("CLS");	
 	//Sleep(10);
-	if(i>=144){
+	if(ans_num>1)
+		return;	
+	else if(i>=144){
 		ans_num++;
 		//cout << " i : " << i << "ans_num : " << ans_num << endl;		
 		for(int j=0;j<144;j++)
@@ -175,6 +167,8 @@ void Sudoku::test_blank(int i){
 				
 		}		
 	}
+	
+
 }
 
 
